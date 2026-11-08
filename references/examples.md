@@ -1,8 +1,12 @@
 # 证明讲解示例
 
-## 1. 圆周平均恒等式：让积分区域变化有明确用途
+<a id="circle-average"></a>
 
-设 u 是二维波动方程的 C² 解，定义
+## 1. 圆周平均恒等式：直接使用定理，显露整体后换元
+
+对应原则：目标与证明组织；构造与理解顺序；符号代换第 1、2 项。
+
+设 a>0，u 是二维波动方程的 C² 解，定义
 
 \[
 I(\mathbf x,r,t)=\frac1{2\pi}\int_{\lVert\mathbf y\rVert=1}u(\mathbf x+r\mathbf y,t)\,dS_{\mathbf y}.
@@ -31,40 +35,88 @@ I_{tt}=a^2\left(I_{rr}+\frac1r I_r\right),\qquad r>0.
 I_{rr}+\frac1r I_r=\frac1r\partial_r(rI_r).
 \]
 
-从定义求导，I_r 的被积函数是梯度与径向单位向量的内积。它是法向导数；再乘 r，线元就转化为半径 r 的圆周线元。令 \(\mathbf z=r\mathbf y\)，得到
+从定义求导得到
 
 \[
-rI_r=\frac1{2\pi}\int_{\lVert\mathbf z\rVert=r}
-\nabla_{\mathbf z}u(\mathbf x+\mathbf z,t)\cdot\frac{\mathbf z}{r}\,dS_{\mathbf z}.
+rI_r=\frac r{2\pi}\int_{\lVert\mathbf y\rVert=1}
+\nabla_{\mathbf x}u(\mathbf x+r\mathbf y,t)\cdot\mathbf y\,dS_{\mathbf y}.
 \]
 
 **Step 3：目标需要 Laplace 算子，Gauss 公式提供它。**
 
-梯度的散度正是 Laplace 算子，故
+单位圆周的外单位法向量正是 \(\mathbf y\)。固定 \(\mathbf x,r,t\)，直接对关于 \(\mathbf y\) 的向量场 \(\nabla_{\mathbf x}u(\mathbf x+r\mathbf y,t)\) 应用 Gauss 公式：
 
 \[
-rI_r=\frac1{2\pi}\int_{\lVert\mathbf z\rVert<r}\Delta_{\mathbf z}u(\mathbf x+\mathbf z,t)\,d\mathbf z.
+rI_r=\frac r{2\pi}\int_{\lVert\mathbf y\rVert<1}
+\operatorname{div}_{\mathbf y}\left[\nabla_{\mathbf x}u(\mathbf x+r\mathbf y,t)\right]\,d\mathbf y.
 \]
 
-圆盘积分在这一需求下出现。为了对 r 求导，将积分写成极坐标形式：
+这里的散度对 \(\mathbf y\) 求导。链式法则给出
 
 \[
-rI_r=\frac1{2\pi}\int_0^r s\int_{\lVert\mathbf y\rVert=1}
-\Delta_{\mathbf x}u(\mathbf x+s\mathbf y,t)\,dS_{\mathbf y}\,ds.
+\operatorname{div}_{\mathbf y}\left[\nabla_{\mathbf x}u(\mathbf x+r\mathbf y,t)\right]
+=r\Delta_{\mathbf x}u(\mathbf x+r\mathbf y,t),
 \]
 
-**Step 4：完成先前需要的半径求导。**
-
-由变上限积分求导，
+所以
 
 \[
-\partial_r(rI_r)=\frac r{2\pi}\int_{\lVert\mathbf y\rVert=1}
-\Delta_{\mathbf x}u(\mathbf x+r\mathbf y,t)\,dS_{\mathbf y}.
+rI_r=\frac{r^2}{2\pi}\int_{\lVert\mathbf y\rVert<1}
+\Delta_{\mathbf x}u(\mathbf x+r\mathbf y,t)\,d\mathbf y.
 \]
 
-除以 r 后得到 Step 1 所需恒等式，代回时间导数即得目标。C² 正则性和局部紧致积分区域保证这里的求导与 Gauss 公式适用。
+**Step 4：将半径依赖转到积分上限。**
+
+目标需要对 r 求导。为了把这一步化为变上限积分求导，先将圆盘按半径分层，再把被积函数中的尺度整体作为新变量。令
+
+\[
+\mathbf y=\rho\boldsymbol\omega(\theta),\qquad
+\boldsymbol\omega(\theta)=(\cos\theta,\sin\theta),\qquad
+0\le\rho\le1,\quad 0\le\theta\le2\pi.
+\]
+
+由极坐标面积元，
+
+\[
+rI_r=\frac{r^2}{2\pi}\int_0^1\rho\int_0^{2\pi}
+\Delta_{\mathbf x}u(\mathbf x+r\rho\boldsymbol\omega(\theta),t)\,d\theta\,d\rho.
+\]
+
+将外面的两个 r 分别分配给权重和微分：
+
+\[
+rI_r=\frac1{2\pi}\int_0^1(r\rho)\int_0^{2\pi}
+\Delta_{\mathbf x}u(\mathbf x+(r\rho)\boldsymbol\omega(\theta),t)\,d\theta\,(r\,d\rho).
+\]
+
+现在权重和函数自变量中都出现整体 \(r\rho\)。固定 r 时有 \(r\,d\rho=d(r\rho)\)，因此将这个整体记为 s，积分范围相应从 \([0,1]\) 变为 \([0,r]\)：
+
+\[
+rI_r=\frac1{2\pi}\int_0^r s\int_0^{2\pi}
+\Delta_{\mathbf x}u(\mathbf x+s\boldsymbol\omega(\theta),t)\,d\theta\,ds.
+\]
+
+此时 r 只出现在积分上限，故
+
+\[
+\partial_r(rI_r)=\frac r{2\pi}\int_0^{2\pi}
+\Delta_{\mathbf x}u(\mathbf x+r\boldsymbol\omega(\theta),t)\,d\theta.
+\]
+
+除以 r 后得到 Step 1 所需恒等式：
+
+\[
+I_{rr}+\frac1r I_r
+=\frac1{2\pi}\int_{\lVert\mathbf y\rVert=1}
+\Delta_{\mathbf x}u(\mathbf x+r\mathbf y,t)\,dS_{\mathbf y}
+=\frac1{a^2}I_{tt}.
+\]
+
+代回即得目标。C² 正则性和局部紧致积分区域保证求导与 Gauss 公式适用。
 
 ## 2. 极限证明：由目标决定参数
+
+对应原则：目标与证明组织；构造与理解顺序；逻辑与数学含义。
 
 证明 \(\lim_{x\to2}x^2=4\)。
 
@@ -88,6 +140,8 @@ rI_r=\frac1{2\pi}\int_0^r s\int_{\lVert\mathbf y\rVert=1}
 
 ## 3. 能量法：由消去项的需求决定辅助量
 
+对应原则：构造与理解顺序；逻辑与数学含义。
+
 设两个经典解满足一维波动方程，在区间 \([0,L]\) 上有相同的齐次 Dirichlet 边界条件和相同初值，证明它们相等。
 
 **Step 1：把目标转化为零解问题。** 令 \(w(x,t)=u(x,t)-v(x,t)\)，则 w 满足同一波动方程、零初值和齐次边界条件。目标为 w 恒为零。
@@ -107,3 +161,55 @@ E'(t)=a^2[w_t(x,t)w_x(x,t)]_{x=0}^{x=L}=0.
 \]
 
 经典解的固定齐次边界给出端点处 \(w_t=0\)。零初值给出 \(E(0)=0\)，于是 E 恒为零。连续性和非负性给出 \(w_x=0\)，故每个时刻 w 关于 x 为常数；端点零值使该常数为零。
+
+<a id="compact-notation"></a>
+
+## 4. 稳定简记：保留已经明确的对象
+
+对应原则：符号代换第 3 项；表达与信息安排。
+
+### 4.1 保留 α 的参数依赖
+
+已知 Fourier 变换后的时间方程为
+
+\[
+\widehat u_t(\lambda,t)+(a^2\lambda^2-ib\lambda-c)\widehat u(\lambda,t)=\widehat f(\lambda,t),
+\qquad \widehat u(\lambda,0)=\widehat\varphi(\lambda).
+\]
+
+当前需要研究一阶 ODE 的求解结构，因此把已经明确的系数记为
+
+\[
+\alpha(\lambda)=a^2\lambda^2-ib\lambda-c.
+\]
+
+对每个固定的 λ，α(λ) 关于 t 为常量。利用积分因子得到
+
+\[
+\widehat u(\lambda,t)=e^{-\alpha(\lambda)t}\widehat\varphi(\lambda)
++\int_0^t e^{-\alpha(\lambda)(t-\tau)}\widehat f(\lambda,\tau)\,d\tau.
+\]
+
+这个形式清楚呈现初值项和源项。继续讨论卷积结构时可保留 α；需要具体计算 Gaussian 核时再展开。若对 λ 求导，则应使用
+
+\[
+\frac{\partial}{\partial\lambda}e^{-\alpha(\lambda)t}
+=-t\alpha'(\lambda)e^{-\alpha(\lambda)t}.
+\]
+
+### 4.2 保留已求出的时间系数
+
+若已知 \(a>0\)、\(\lambda_n>0\)，并已求得
+
+\[
+T_n(t)=A_n\cos(a\sqrt{\lambda_n}t)
++\frac{B_n}{a\sqrt{\lambda_n}}\sin(a\sqrt{\lambda_n}t),
+\]
+
+在说明空间模态与时间系数如何组成解时，使用
+
+\[
+u(x,t)=\sum_{n=1}^{\infty}X_n(x)T_n(t).
+\]
+
+它保留了空间、时间的组成关系。需要验证具体时间方程或计算数值时，再使用 T_n(t) 的表达式；级数的求导与收敛条件由具体问题另行验证。
