@@ -1,10 +1,10 @@
-# 证明讲解示例
+# 证明方法示例
 
 <a id="circle-average"></a>
 
 ## 1. 圆周平均恒等式：直接使用定理，显露整体后换元
 
-对应原则：目标与证明组织；构造与理解顺序；符号代换第 1、2 项。
+对应原则：证明题中的目标反推；需求先于构造；先显露结构，再整体代换。
 
 设 a>0，u 是二维波动方程的 C² 解，定义
 
@@ -116,7 +116,7 @@ I_{rr}+\frac1r I_r
 
 ## 2. 极限证明：由目标决定参数
 
-对应原则：目标与证明组织；构造与理解顺序；逻辑与数学含义。
+对应原则：由目标寻找充分条件；需求先于构造；核对逻辑方向。
 
 证明 \(\lim_{x\to2}x^2=4\)。
 
@@ -140,7 +140,7 @@ I_{rr}+\frac1r I_r
 
 ## 3. 能量法：由消去项的需求决定辅助量
 
-对应原则：构造与理解顺序；逻辑与数学含义。
+对应原则：需求先于构造；检查定理条件；完成原目标。
 
 设两个经典解满足一维波动方程，在区间 \([0,L]\) 上有相同的齐次 Dirichlet 边界条件和相同初值，证明它们相等。
 
@@ -161,55 +161,3 @@ E'(t)=a^2[w_t(x,t)w_x(x,t)]_{x=0}^{x=L}=0.
 \]
 
 经典解的固定齐次边界给出端点处 \(w_t=0\)。零初值给出 \(E(0)=0\)，于是 E 恒为零。连续性和非负性给出 \(w_x=0\)，故每个时刻 w 关于 x 为常数；端点零值使该常数为零。
-
-<a id="compact-notation"></a>
-
-## 4. 稳定简记：保留已经明确的对象
-
-对应原则：符号代换第 3 项；表达与信息安排。
-
-### 4.1 保留 α 的参数依赖
-
-已知 Fourier 变换后的时间方程为
-
-\[
-\widehat u_t(\lambda,t)+(a^2\lambda^2-ib\lambda-c)\widehat u(\lambda,t)=\widehat f(\lambda,t),
-\qquad \widehat u(\lambda,0)=\widehat\varphi(\lambda).
-\]
-
-当前需要研究一阶 ODE 的求解结构，因此把已经明确的系数记为
-
-\[
-\alpha(\lambda)=a^2\lambda^2-ib\lambda-c.
-\]
-
-对每个固定的 λ，α(λ) 关于 t 为常量。利用积分因子得到
-
-\[
-\widehat u(\lambda,t)=e^{-\alpha(\lambda)t}\widehat\varphi(\lambda)
-+\int_0^t e^{-\alpha(\lambda)(t-\tau)}\widehat f(\lambda,\tau)\,d\tau.
-\]
-
-这个形式清楚呈现初值项和源项。继续讨论卷积结构时可保留 α；需要具体计算 Gaussian 核时再展开。若对 λ 求导，则应使用
-
-\[
-\frac{\partial}{\partial\lambda}e^{-\alpha(\lambda)t}
-=-t\alpha'(\lambda)e^{-\alpha(\lambda)t}.
-\]
-
-### 4.2 保留已求出的时间系数
-
-若已知 \(a>0\)、\(\lambda_n>0\)，并已求得
-
-\[
-T_n(t)=A_n\cos(a\sqrt{\lambda_n}t)
-+\frac{B_n}{a\sqrt{\lambda_n}}\sin(a\sqrt{\lambda_n}t),
-\]
-
-在说明空间模态与时间系数如何组成解时，使用
-
-\[
-u(x,t)=\sum_{n=1}^{\infty}X_n(x)T_n(t).
-\]
-
-它保留了空间、时间的组成关系。需要验证具体时间方程或计算数值时，再使用 T_n(t) 的表达式；级数的求导与收敛条件由具体问题另行验证。

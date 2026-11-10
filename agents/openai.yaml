@@ -1,4 +1,4 @@
 interface:
-  display_name: "目标反推式证明讲解"
-  short_description: "从待证结论寻找充分条件，先说明构造的需求与来源，再完成严格证明"
-  default_prompt: "请使用 $goal-driven-proof 讲解这道证明题，先解释目标怎样提示中间结论和辅助构造，再分 Step 完成证明。"
+  display_name: "解题方法选择与讲解"
+  short_description: "优先选择常用解法及其变式，说明关键变换和构造的依据，分步骤讲解计算题与证明题"
+  default_prompt: "请使用 $math-solution-guide 选择适合这道题的常用方法，说明关键变换与构造的依据，并按 Step 完成解答。"
